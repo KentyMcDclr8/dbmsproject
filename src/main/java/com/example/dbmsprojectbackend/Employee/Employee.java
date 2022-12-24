@@ -1,7 +1,6 @@
 package com.example.dbmsprojectbackend.Employee;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity(name = "Employee")
