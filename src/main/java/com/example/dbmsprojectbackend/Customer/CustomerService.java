@@ -1,5 +1,8 @@
 package com.example.dbmsprojectbackend.Customer;
 
+import com.example.dbmsprojectbackend.Employee.Employee;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,14 +14,20 @@ import java.util.Optional;
 @Service
 
 public class CustomerService {
+	@PersistenceContext
+	private EntityManager entityManager;
 	private final CustomerRepository customerRepository;
+
 	@Autowired
 	public CustomerService(CustomerRepository customerRepository) {
 		this.customerRepository = customerRepository;
 	}
+
 	public List<Customer> getCustomers() {
 		return customerRepository.findAll();
 	}
+	@Transactional
+
 	public void addNewCustomer(Customer customer) {
 		Optional<Customer> customerOptionalEmail = customerRepository.findCustomerByEmail(customer.getEmail());
 		Optional<Customer> customerOptionalPhone = customerRepository.findCustomerByPhone(customer.getPhone());
@@ -28,10 +37,22 @@ public class CustomerService {
 		if (customerOptionalPhone.isPresent()) {
 			throw new IllegalStateException("An employee with that phone number already exists.");
 		}
-		customerRepository.save(customer);
+		entityManager.createNativeQuery("INSERT INTO customer (id, password, name, email, phone, building_number,  street_number,  city,  province) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
+				.setParameter(1, customer.getId())
+				.setParameter(2, customer.getPassword())
+				.setParameter(3, customer.getName())
+				.setParameter(4, customer.getEmail())
+				.setParameter(5, customer.getPhone())
+				.setParameter(6, customer.getBuildingNumber())
+				.setParameter(7, customer.getStreetNumber())
+				.setParameter(8, customer.getCity())
+				.setParameter(9, customer.getProvince())
+				.executeUpdate();
 	}
+
 	public void deleteCustomer(Long customerId) {
-		if (!customerRepository.existsById(customerId)) {
+		Optional<Customer> customerOptional = customerRepository.findEmployeeById(customerId);
+		if (!customerOptional.isPresent()) {
 			throw new IllegalStateException("An employee with that ID does not exist.");
 		}
 		customerRepository.deleteById(customerId);

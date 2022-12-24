@@ -1,10 +1,8 @@
 package com.example.dbmsprojectbackend.Customer;
 
-import com.example.dbmsprojectbackend.Employee.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -27,11 +25,11 @@ public class CustomerController {
 	}
 
 	@DeleteMapping(path = "{customerId}")
-	public void deleteEmployee(@PathVariable("customerId") Long customerId) {
+	public void deleteCustomer(@PathVariable("customerId") Long customerId) {
 		customerService.deleteCustomer(customerId);
 	}
 	@PutMapping(path = "{customerId}")
-	public void updateEmployee(
+	public void updateCustomer(
 			@PathVariable("customerId") Long customerId,
 			@RequestParam(required = false) String password,
 			@RequestParam(required = false) String name,

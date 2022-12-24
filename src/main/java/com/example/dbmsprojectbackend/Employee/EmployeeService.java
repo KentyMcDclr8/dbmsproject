@@ -1,5 +1,8 @@
 package com.example.dbmsprojectbackend.Employee;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +15,9 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private final EmployeeRepository employeeRepository;
 
     @Autowired
@@ -22,6 +28,8 @@ public class EmployeeService {
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
     }
+
+    @Transactional
     public void addNewEmployee(Employee employee) {
         Optional<Employee> employeeOptionalEmail = employeeRepository.findEmployeeByEmail(employee.getEmail());
         Optional<Employee> employeeOptionalPhone = employeeRepository.findEmployeeByPhone(employee.getPhone());
@@ -31,19 +39,37 @@ public class EmployeeService {
         if (employeeOptionalPhone.isPresent()) {
             throw new IllegalStateException("An employee with that phone number already exists.");
         }
-        employeeRepository.save(employee);
+        entityManager.createNativeQuery("INSERT INTO employee (id, password, name, email, phone, salary, start_date, end_date, status, position) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+                .setParameter(1, employee.getId())
+                .setParameter(2, employee.getPassword())
+                .setParameter(3, employee.getName())
+                .setParameter(4, employee.getEmail())
+                .setParameter(5, employee.getPhone())
+                .setParameter(6, employee.getSalary())
+                .setParameter(7, employee.getStartDate())
+                .setParameter(8, employee.getEndDate())
+                .setParameter(9, employee.getStatus())
+                .setParameter(10, employee.getPosition())
+                .executeUpdate();
     }
 
+    @Transactional
     public void deleteEmployee(Long employeeId) {
-        if (!employeeRepository.existsById(employeeId)) {
+        Optional<Employee> employeeOptional = employeeRepository.findEmployeeById(employeeId);
+        if (!employeeOptional.isPresent()) {
             throw new IllegalStateException("An employee with that ID does not exist.");
         }
         employeeRepository.deleteById(employeeId);
+
     }
 
     @Transactional
     public void updateEmployee(Long employeeId, String password, String name, String email, Long phone, Integer salary, LocalDate startDate, LocalDate endDate, String status, String position) {
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new IllegalStateException("An employee with that ID does not exist."));
+        Optional<Employee> employeeOptional = employeeRepository.findEmployeeById(employeeId);
+        if (!employeeOptional.isPresent()) {
+            throw new IllegalStateException("An employee with that ID does not exist.");
+        }
+        Employee employee = employeeOptional.get();
         if (password != null && password.length() != 0 && !Objects.equals(password, employee.getPassword())) {
             employee.setPassword(password);
         }
