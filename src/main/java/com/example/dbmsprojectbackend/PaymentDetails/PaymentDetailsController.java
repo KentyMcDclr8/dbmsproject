@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("paymentdetails")
+@CrossOrigin
 public class PaymentDetailsController {
     final CustomerRepository customerRepository;
 
