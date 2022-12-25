@@ -1,6 +1,11 @@
 package com.example.dbmsprojectbackend.Customer;
 
+import com.example.dbmsprojectbackend.PaymentDetails.PaymentDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "Customer")
 @Table(
@@ -93,6 +98,10 @@ public class Customer {
 			columnDefinition = "TEXT"
 	)
 	private String province;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "customer")
+	private List<PaymentDetails> paymentDetailsList = new ArrayList<PaymentDetails>();
 
 
 	// constructors
@@ -190,5 +199,15 @@ public class Customer {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public List<PaymentDetails> getPaymentDetailsList() {
+		return paymentDetailsList;
+	}
+
+	public void addPaymentDetails(PaymentDetails paymentDetails) {
+		if (!paymentDetailsList.contains(paymentDetails)) {
+			paymentDetailsList.add(paymentDetails);
+		}
 	}
 }
