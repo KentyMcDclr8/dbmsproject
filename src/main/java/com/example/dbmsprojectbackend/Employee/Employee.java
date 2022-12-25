@@ -18,10 +18,11 @@ public class Employee {
     @SequenceGenerator(
             name = "employee_sequence",
             sequenceName = "employee_sequence",
+            initialValue = 1000000,
             allocationSize = 1
     )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
+            strategy = GenerationType.IDENTITY,
             generator = "employee_sequence"
     )
     @Column(
