@@ -1,6 +1,7 @@
 package com.example.dbmsprojectbackend.PaymentDetails;
 
 import com.example.dbmsprojectbackend.Customer.Customer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class PaymentDetails {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JsonIgnore
     private Customer customer;
 
     @Column(

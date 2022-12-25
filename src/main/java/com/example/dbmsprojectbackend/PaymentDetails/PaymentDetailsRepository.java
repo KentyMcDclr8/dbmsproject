@@ -1,6 +1,5 @@
 package com.example.dbmsprojectbackend.PaymentDetails;
 
-import com.example.dbmsprojectbackend.Customer.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
