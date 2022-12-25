@@ -25,8 +25,8 @@ public class PackageController {
         return packageService.getPackages();
     }
 
-    @PostMapping
-    public void addNewPackage(@RequestBody Package pack) { packageService.addNewPackage(pack, pack.getSentBy()); }
+    @PostMapping(path = "{customerId}")
+    public void addNewPackage(@RequestBody Package pack, @PathVariable Long customerId) { packageService.addNewPackage(pack, customerId); }
 
     @DeleteMapping(path = "{packageId}")
     public void deletePackage(@PathVariable("packageId") Long packageId) {

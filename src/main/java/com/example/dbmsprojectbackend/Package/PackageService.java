@@ -29,7 +29,7 @@ public class PackageService {
     }
 
     @Transactional
-    public void addNewPackage(Package pack, Customer customer) {
+    public void addNewPackage(Package pack, Long customer) {
         Optional<Package> packageOptional = packageRepository.findPackageById(pack.getId());
         if (packageOptional.isPresent()) {
             throw new IllegalStateException("A package with that ID already exists.");
@@ -39,7 +39,7 @@ public class PackageService {
                 .setParameter(2, pack.getVolume())
                 .setParameter(3, pack.getWeight())
                 .setParameter(4, pack.getType())
-                .setParameter(5, pack.getSentBy().getId())
+                .setParameter(5, customer)
                 .executeUpdate();
     }
 

@@ -4,6 +4,7 @@ import com.example.dbmsprojectbackend.Customer.Customer;
 import com.example.dbmsprojectbackend.Employee.Employee;
 import com.example.dbmsprojectbackend.PaymentDetails.PaymentDetails;
 import com.example.dbmsprojectbackend.Recipient.Recipient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
@@ -57,27 +58,31 @@ public class Package {
     @Column(
             name = "price"
     )
-    private int price;
+    private Integer price;
 
     @Column(
             name = "deliveryTime"
     )
-    private int deliveryTime;
+    private Integer deliveryTime;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sent_by", referencedColumnName = "id")
+    @JsonIgnore
     private Customer sentBy;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "managed_by", referencedColumnName = "id")
+    @JsonIgnore
     private Employee managedBy;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "paid_from", referencedColumnName = "account_number")
+    @JsonIgnore
     private PaymentDetails paidFrom;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "received_by", referencedColumnName = "recipient_id")
+    @JsonIgnore
     private Recipient receivedBy;
 
     // constructors
@@ -144,19 +149,19 @@ public class Package {
         this.dateDelivered = dateDelivered;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
     public void setPrice() {
-        this.price = (int) ((this.weight/2) + this.volume);
+        this.price =Integer.valueOf ((int) ((this.weight/2) + this.volume));
     }
 
-    public int getDeliveryTime() {
+    public Integer getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(int deliveryTime) {
+    public void setDeliveryTime(Integer deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 
