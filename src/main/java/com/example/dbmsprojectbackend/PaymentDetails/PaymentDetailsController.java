@@ -1,5 +1,7 @@
 package com.example.dbmsprojectbackend.PaymentDetails;
 
+import com.example.dbmsprojectbackend.Customer.Customer;
+import com.example.dbmsprojectbackend.Customer.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,20 +11,24 @@ import java.util.List;
 @RestController
 @RequestMapping("paymentdetails")
 public class PaymentDetailsController {
+    final CustomerRepository customerRepository;
 
     private final PaymentDetailsService paymentDetailsService;
 
     @Autowired
-    public PaymentDetailsController(PaymentDetailsService paymentDetailsService) { this.paymentDetailsService = paymentDetailsService; }
+    public PaymentDetailsController(CustomerRepository customerRepository, PaymentDetailsService paymentDetailsService) {
+        this.customerRepository = customerRepository;
+        this.paymentDetailsService = paymentDetailsService; }
 
     @GetMapping
     public List<PaymentDetails> getPaymentDetails() {
         return paymentDetailsService.getPaymentDetails();
     }
 
-    @PostMapping
-    public void addPaymentDetails(@RequestBody PaymentDetails paymentDetails) {
-        paymentDetailsService.addNewPaymentDetails(paymentDetails);
+    @PostMapping(path = "{customerId}")
+    public void addPaymentDetails(@RequestBody PaymentDetails paymentDetails, @PathVariable("customerId") Long customerId) {
+        Customer customer = customerRepository.findCustomerById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that id does not exist."));
+        paymentDetailsService.addNewPaymentDetails(paymentDetails,customer);
     }
 
     @DeleteMapping(path = "{accountNumber}/{customerId}")

@@ -1,5 +1,6 @@
 package com.example.dbmsprojectbackend.PaymentDetails;
 
+import com.example.dbmsprojectbackend.Customer.Customer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,14 @@ public class PaymentDetailsService {
     }
 
     @Transactional
-    public void addNewPaymentDetails(PaymentDetails paymentDetails) {
-        Optional<PaymentDetails> paymentDetailsOptional = paymentDetailsRepository.findPaymentDetailsByAccountAndId(paymentDetails.getAccountNumber(), paymentDetails.getCustomer().getId());
+    public void addNewPaymentDetails(PaymentDetails paymentDetails, Customer customer) {
+        Optional<PaymentDetails> paymentDetailsOptional = paymentDetailsRepository.findPaymentDetailsByAccountAndId(paymentDetails.getAccountNumber(), customer.getId());
         if (paymentDetailsOptional.isPresent()) {
             throw new IllegalStateException("Payment details with that account number already exist.");
         }
         entityManager.createNativeQuery("INSERT INTO payment_details (account_number, customer_id, account_title, expiry_date, cvv, last_used,  bank_name) VALUES (?, ?, ?, ?, ?, ?, ?)")
                 .setParameter(1, paymentDetails.getAccountNumber())
-                .setParameter(2, paymentDetails.getCustomer().getId())
+                .setParameter(2, customer.getId())
                 .setParameter(3, paymentDetails.getAccountTitle())
                 .setParameter(4, paymentDetails.getExpiryDate())
                 .setParameter(5, paymentDetails.getCvv())
