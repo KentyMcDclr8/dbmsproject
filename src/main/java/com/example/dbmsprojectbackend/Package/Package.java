@@ -77,7 +77,7 @@ public class Package {
     private PaymentDetails paidFrom;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "received_by", referencedColumnName = "id")
+    @JoinColumn(name = "received_by", referencedColumnName = "recipient_id")
     private Recipient receivedBy;
 
     // constructors
