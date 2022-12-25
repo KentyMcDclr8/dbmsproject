@@ -16,14 +16,9 @@ public class LoginController {
 	public LoginController(LoginService loginService) {
 		this.loginService = loginService;
 	}
-	@PostMapping("customerLogin")
-	public Customer customerLogin( @RequestParam(required = true) Long id,
+	@PostMapping("login")
+	public Object customerLogin( @RequestParam(required = true) Long id,
 	                       @RequestParam(required = true) String password){
 	return loginService.customerLogin(id,password);
-	}
-	@PostMapping("employeeLogin")
-	public Employee employeeLogin(@RequestParam(required = true) Long id,
-	                      @RequestParam(required = true) String password){
-		return loginService.employeeLogin(id,password);
 	}
 }

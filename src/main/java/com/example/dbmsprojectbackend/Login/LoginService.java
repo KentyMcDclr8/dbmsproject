@@ -28,28 +28,24 @@ public class LoginService {
 		this.employeeRepository = employeeRepository;
 	}
 
-	public Customer customerLogin(long customerId, String password){
+	public Object customerLogin(long id, String password) {
 
-		Query query = entityManager.createNativeQuery("SELECT * FROM customer WHERE id = ? AND password = ?").setParameter(1, customerId).setParameter(2, password);
-		List customerList = query.getResultList();
-		if(customerList.isEmpty()){
-			throw new IllegalStateException("ID/Password Incorrect");
-		}
-		else {
-		Customer customer =	customerRepository.findCustomerById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that id does not exist."));
-			return customer;
-		}
-	}
-	public Employee employeeLogin(long employeeId, String password){
+		Query query = entityManager.createNativeQuery("SELECT * FROM customer WHERE id = ? AND password = ?").setParameter(1, id).setParameter(2, password);
+		Query query2 = entityManager.createNativeQuery("SELECT * FROM employee WHERE id = ? AND password = ?").setParameter(1, id).setParameter(2, password);
 
-		Query query = entityManager.createNativeQuery("SELECT * FROM employee WHERE id = ? AND password = ?").setParameter(1, employeeId).setParameter(2, password);
 		List customerList = query.getResultList();
-		if(customerList.isEmpty()){
+		List empoyeeList = query2.getResultList();
+
+		if (customerList.isEmpty() && empoyeeList.isEmpty()) {
 			throw new IllegalStateException("ID/Password Incorrect");
-		}
-		else {
-			Employee employee =	employeeRepository.findById(employeeId).orElseThrow(() -> new IllegalStateException("An employee with that id does not exist."));
-			return employee;
+		} else {
+			if (customerList.isEmpty()) {
+				Employee employee = employeeRepository.findById(id).orElseThrow(() -> new IllegalStateException("An employee with that id does not exist."));
+				return employee;
+			} else {
+				Customer customer = customerRepository.findCustomerById(id).orElseThrow(() -> new IllegalStateException("A customer with that id does not exist."));
+				return customer;
+			}
 		}
 	}
 }

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PaymentDetailsRepository extends JpaRepository {
+public interface PaymentDetailsRepository extends JpaRepository<PaymentDetails, Long> {
 
     @Query(value = "SELECT * FROM payment_details p WHERE p.account_number = ?1 AND p.customer_id = ?2", nativeQuery = true)
     Optional<PaymentDetails> findPaymentDetailsByAccountAndId(Long accountNumber, Long customerId);
