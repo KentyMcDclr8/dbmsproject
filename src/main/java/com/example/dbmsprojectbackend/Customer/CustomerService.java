@@ -35,7 +35,7 @@ public class CustomerService {
 		if (customerOptionalPhone.isPresent()) {
 			throw new IllegalStateException("An employee with that phone number already exists.");
 		}
-		entityManager.createNativeQuery("INSERT INTO customer (id, password, name, email, phone, building_number,  street_number,  city,  province) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
+		entityManager.createNativeQuery("INSERT INTO customer (id, password, name, email, phone, building_number,  street_number,  city,  province, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 				.setParameter(1, customer.getId())
 				.setParameter(2, customer.getPassword())
 				.setParameter(3, customer.getName())
@@ -45,6 +45,7 @@ public class CustomerService {
 				.setParameter(7, customer.getStreetNumber())
 				.setParameter(8, customer.getCity())
 				.setParameter(9, customer.getProvince())
+				.setParameter(10, "Customer")
 				.executeUpdate();
 	}
 
