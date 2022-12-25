@@ -100,9 +100,9 @@ public class Employee {
     // constructors
     public Employee() {}
 
-    public Employee(String password, String name, String email, Long phone, int salary, LocalDate startDate, String status, String position) {
+    public Employee(String password, String name, String email, Long phone, int salary, LocalDate startDate, String status, String position, String type) {
         this.password = password;
-        this.type = "employee";
+        this.type = type;
         this.name = name;
         this.email = email;
         this.phone = phone;

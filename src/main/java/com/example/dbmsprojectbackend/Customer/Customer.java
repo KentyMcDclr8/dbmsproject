@@ -1,6 +1,7 @@
 package com.example.dbmsprojectbackend.Customer;
 
 import jakarta.persistence.*;
+
 @Entity(name = "Customer")
 @Table(
 		name = "customer",
@@ -48,6 +49,13 @@ public class Customer {
 			columnDefinition = "TEXT"
 	)
 	private String email;
+	@Column(
+			name = "type",
+			nullable = false,
+			updatable = false,
+			columnDefinition = "TEXT"
+	)
+	private String type;
 
 	@Column(
 			name = "phone",
@@ -91,7 +99,7 @@ public class Customer {
 	public Customer() {
 	}
 
-	public Customer(String password, String name, String email, Long phone, String building_number, String street_number, String city, String province) {
+	public Customer(String password, String name, String email, Long phone, String building_number, String street_number, String city, String province, String type) {
 		this.password = password;
 		this.name = name;
 		this.email = email;
@@ -100,6 +108,7 @@ public class Customer {
 		this.street_number = street_number;
 		this.city = city;
 		this.province = province;
+		this.type = type;
 	}
 
 	// getters and setters
@@ -154,9 +163,11 @@ public class Customer {
 	public String getCity() {
 		return city;
 	}
+
 	public void setCity(String city) {
 		this.city = city;
 	}
+
 	public String getBuildingNumber() {
 		return building_number;
 	}
@@ -171,5 +182,13 @@ public class Customer {
 
 	public void setStreetNumber(String street_number) {
 		this.street_number = street_number;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }
