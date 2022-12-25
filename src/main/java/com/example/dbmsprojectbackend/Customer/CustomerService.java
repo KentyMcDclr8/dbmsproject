@@ -1,6 +1,5 @@
 package com.example.dbmsprojectbackend.Customer;
 
-import com.example.dbmsprojectbackend.Employee.Employee;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,7 @@ public class CustomerService {
 	}
 
 	public void deleteCustomer(Long customerId) {
-		Optional<Customer> customerOptional = customerRepository.findEmployeeById(customerId);
+		Optional<Customer> customerOptional = customerRepository.findCustomerById(customerId);
 		if (!customerOptional.isPresent()) {
 			throw new IllegalStateException("An employee with that ID does not exist.");
 		}

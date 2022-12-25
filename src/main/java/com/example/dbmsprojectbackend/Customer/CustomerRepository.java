@@ -18,7 +18,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	Optional<Customer> findCustomerByPhone(Long phone);
 
 	@Query(value = "SELECT * FROM customer c WHERE c.id = ?1", nativeQuery = true)
-	Optional<Customer> findEmployeeById(Long employeeId);
+	Optional<Customer> findCustomerById(Long customerId);
 
 	@Query(value = "SELECT * FROM customer c", nativeQuery = true)
 	List<Customer> findAll();
