@@ -39,6 +39,14 @@ public class Employee {
     private String password;
 
     @Column(
+            name = "type",
+            nullable = false,
+            updatable = false,
+            columnDefinition = "TEXT"
+    )
+    private String type;
+
+    @Column(
             name = "name",
             nullable = false,
             columnDefinition = "TEXT"
@@ -94,6 +102,7 @@ public class Employee {
 
     public Employee(String password, String name, String email, Long phone, int salary, LocalDate startDate, String status, String position) {
         this.password = password;
+        this.type = "employee";
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -119,6 +128,14 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {
