@@ -26,7 +26,7 @@ public class CustomerService {
 		return customerRepository.findAll();
 	}
 	@Transactional
-
+//new
 	public Long addNewCustomer(Customer customer) {
 		Optional<Customer> customerOptionalEmail = customerRepository.findCustomerByEmail(customer.getEmail());
 		Optional<Customer> customerOptionalPhone = customerRepository.findCustomerByPhone(customer.getPhone());

@@ -21,7 +21,7 @@ public class CustomerController {
 	public List<Customer> getCustomers() {
 		return customerService.getCustomers();
 	}
-
+//new
 	@PostMapping
 	public Long addNewCustomer(@RequestBody Customer customer) {
 		return customerService.addNewCustomer(customer);
