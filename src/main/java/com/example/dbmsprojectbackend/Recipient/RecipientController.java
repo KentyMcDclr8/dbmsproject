@@ -43,7 +43,7 @@ public class RecipientController {
 	public Recipient deleteRecipient(@PathVariable("recipientId") Long recipientId) {
 		recipientService.deleteRecipient(recipientId);
 		Recipient recipient;
-		return  recipient = recipientRepository.findRecipientById(recipientId).orElseThrow(() -> new IllegalStateException("A Recipient with that ID does not exist."));
+		return  null;
 
 	}
 	@PutMapping(path = "{recipientId}")
