@@ -54,6 +54,16 @@ public class PackageService {
         pack.packageId++;
     }
 
+    public int getPricePackage(Long packageId) {
+        Optional<Package> packageOptional = packageRepository.findPackageById(packageId);
+        if (!packageOptional.isPresent()) {
+            throw new IllegalStateException("A package with that ID does not exist.");
+        }
+        Package pack = packageOptional.get();
+        pack.setPrice();
+        return pack.getPrice();
+    }
+
     @Transactional
     public void deletePackage(Long packageId) {
         Optional<Package> packageOptional = packageRepository.findPackageById(packageId);

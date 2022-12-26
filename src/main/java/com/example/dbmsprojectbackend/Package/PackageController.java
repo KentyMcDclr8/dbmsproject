@@ -33,6 +33,12 @@ public class PackageController {
         return packageService.getPackageBySenderId(senderId);
     }
 
+    @GetMapping(path = "price")
+    public int getPackagePrice(@RequestBody Package pack) {
+        pack.setPrice();
+        return pack.getPrice();
+    }
+
     @PostMapping(path = "{customerId}")
     public Package addNewPackage(@RequestBody Package pack, @PathVariable Long customerId) { packageService.addNewPackage(pack, customerId);
     return pack;
