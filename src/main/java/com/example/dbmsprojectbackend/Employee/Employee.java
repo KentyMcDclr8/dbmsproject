@@ -2,7 +2,6 @@ package com.example.dbmsprojectbackend.Employee;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-
 @Entity(name = "Employee")
 @Table(
         name = "employee",
@@ -12,19 +11,10 @@ import java.time.LocalDate;
         }
 )
 public class Employee {
+    public static Long employeeId = 1000L;
 
     // properties
     @Id
-    @SequenceGenerator(
-            name = "employee_sequence",
-            sequenceName = "employee_sequence",
-            initialValue = 1000000,
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY,
-            generator = "employee_sequence"
-    )
     @Column(
             name = "id",
             updatable = false

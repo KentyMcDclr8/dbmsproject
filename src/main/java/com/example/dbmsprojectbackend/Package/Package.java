@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Entity(name = "Package")
 @Table(name = "package")
 public class Package {
-
+    public static Long packageId = 4000L;
     //properties
     @Id
     @Column(

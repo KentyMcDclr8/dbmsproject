@@ -11,6 +11,8 @@ import java.util.List;
 @Entity(name = "Recipient")
 @Table(name = "recipient")
 public class Recipient {
+	public static Long recipientId = 3000L;
+
 	// properties
 	@Id
 	@Column(

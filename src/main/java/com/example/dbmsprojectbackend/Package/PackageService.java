@@ -3,6 +3,7 @@ package com.example.dbmsprojectbackend.Package;
 import com.example.dbmsprojectbackend.Customer.Customer;
 import com.example.dbmsprojectbackend.Employee.Employee;
 import com.example.dbmsprojectbackend.PaymentDetails.PaymentDetails;
+import com.example.dbmsprojectbackend.Recipient.Recipient;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +31,23 @@ public class PackageService {
 
     @Transactional
     public void addNewPackage(Package pack, Long customer) {
-        Optional<Package> packageOptional = packageRepository.findPackageById(pack.getId());
-        if (packageOptional.isPresent()) {
-            throw new IllegalStateException("A package with that ID already exists.");
+//        Optional<Package> packageOptional = packageRepository.findPackageById(pack.getId());
+//        if (packageOptional.isPresent()) {
+//            throw new IllegalStateException("A package with that ID already exists.");
+//        }
+        Optional<Package> recipientOptionalId = packageRepository.findPackageById(pack.packageId);
+        while(recipientOptionalId.isPresent()){
+            pack.packageId++;
+            recipientOptionalId = packageRepository.findPackageById(pack.packageId);
         }
         entityManager.createNativeQuery("INSERT INTO package (id, volume, weight, type, sent_by) VALUES (?, ?, ?, ?, ?)")
-                .setParameter(1, pack.getId())
+                .setParameter(1, pack.packageId)
                 .setParameter(2, pack.getVolume())
                 .setParameter(3, pack.getWeight())
                 .setParameter(4, pack.getType())
                 .setParameter(5, customer)
                 .executeUpdate();
+        pack.packageId++;
     }
 
     @Transactional

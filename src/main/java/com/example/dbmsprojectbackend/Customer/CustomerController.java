@@ -9,10 +9,13 @@ import java.util.List;
 @CrossOrigin
 public class CustomerController {
 	public final CustomerService customerService;
+	private final CustomerRepository customerRepository;
+
 
 	@Autowired
-	public CustomerController(CustomerService customerService) {
+	public CustomerController(CustomerService customerService, CustomerRepository customerRepository) {
 		this.customerService = customerService;
+		this.customerRepository = customerRepository;
 	}
 	@GetMapping
 	public List<Customer> getCustomers() {
@@ -20,16 +23,18 @@ public class CustomerController {
 	}
 
 	@PostMapping
-	public void addNewCustomer(@RequestBody Customer customer) {
-		customerService.addNewCustomer(customer);
+	public Long addNewCustomer(@RequestBody Customer customer) {
+		return customerService.addNewCustomer(customer);
 	}
 
 	@DeleteMapping(path = "{customerId}")
-	public void deleteCustomer(@PathVariable("customerId") Long customerId) {
+	public Customer deleteCustomer(@PathVariable("customerId") Long customerId) {
 		customerService.deleteCustomer(customerId);
+		Customer customer;
+		return  customer = customerRepository.findById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
 	}
 	@PutMapping(path = "{customerId}")
-	public void updateCustomer(
+	public Customer updateCustomer(
 			@PathVariable("customerId") Long customerId,
 			@RequestParam(required = false) String password,
 			@RequestParam(required = false) String name,
@@ -40,5 +45,8 @@ public class CustomerController {
 			@RequestParam(required = false) String city,
 			@RequestParam(required = false) String province) {
 		customerService.updateEmployee(customerId, password, name, email, phone,  building_number,  street_number,  city,  province);
+		Customer customer;
+		return  customer = customerRepository.findById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
+
 	}
 }

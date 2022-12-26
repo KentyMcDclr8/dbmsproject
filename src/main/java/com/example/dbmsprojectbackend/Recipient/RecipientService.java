@@ -29,9 +29,13 @@ public class RecipientService {
 	@Transactional
 
 	public void addNewRecipient(Recipient recipient, Customer customer) {
-		//recipientRepository.findRecipientById(recipient.getRecipient_id());
+		Optional<Recipient> recipientOptionalId = recipientRepository.findRecipientById(recipient.recipientId);
+		while(recipientOptionalId.isPresent()){
+			recipient.recipientId++;
+			recipientOptionalId = recipientRepository.findRecipientById(recipient.recipientId);
+		}
 		entityManager.createNativeQuery("INSERT INTO recipient (recipient_id, customer_id, name, email, phone, building_number,  street_number,  city,  province) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
-				.setParameter(1, recipient.getRecipient_id())
+				.setParameter(1, recipient.recipientId)
 				.setParameter(2, customer.getId())
 				.setParameter(3, recipient.getName())
 				.setParameter(4, recipient.getEmail())
@@ -41,6 +45,7 @@ public class RecipientService {
 				.setParameter(8, recipient.getCity())
 				.setParameter(9, recipient.getProvince())
 				.executeUpdate();
+		recipient.recipientId++;
 	}
 
 	public void deleteRecipient(Long recipientId) {

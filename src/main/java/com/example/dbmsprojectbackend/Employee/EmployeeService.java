@@ -37,8 +37,14 @@ public class EmployeeService {
         if (employeeOptionalPhone.isPresent()) {
             throw new IllegalStateException("An employee with that phone number already exists.");
         }
+        Optional<Employee> employeeOptionalId = employeeRepository.findEmployeeById(employee.employeeId);
+        while(employeeOptionalId.isPresent()){
+            employee.employeeId++;
+            employeeOptionalId = employeeRepository.findEmployeeById(employee.employeeId);
+        }
+
         entityManager.createNativeQuery("INSERT INTO employee (id, password, name, email, phone, salary, start_date, end_date, status, position, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-                .setParameter(1, employee.getId())
+                .setParameter(1, employee.employeeId)
                 .setParameter(2, employee.getPassword())
                 .setParameter(3, employee.getName())
                 .setParameter(4, employee.getEmail())
@@ -50,6 +56,7 @@ public class EmployeeService {
                 .setParameter(10, employee.getPosition())
                 .setParameter(11, "Employee")
                 .executeUpdate();
+        employee.employeeId++;
     }
 
     @Transactional
