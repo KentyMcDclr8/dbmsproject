@@ -29,6 +29,10 @@ public class PackageService {
         return packageRepository.findAll();
     }
 
+    public List<Package> getPackageBySenderId(Long senderId) {
+        return packageRepository.findPackageBySenderId(senderId);
+    }
+
     @Transactional
     public void addNewPackage(Package pack, Long customer) {
 //        Optional<Package> packageOptional = packageRepository.findPackageById(pack.getId());

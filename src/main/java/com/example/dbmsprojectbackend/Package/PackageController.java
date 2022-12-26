@@ -25,6 +25,11 @@ public class PackageController {
         return packageService.getPackages();
     }
 
+    @GetMapping(path = "{senderId}")
+    public List<Package> getPackagesBySenderId(@PathVariable("senderId") Long senderId) {
+        return packageService.getPackageBySenderId(senderId);
+    }
+
     @PostMapping(path = "{customerId}")
     public void addNewPackage(@RequestBody Package pack, @PathVariable Long customerId) { packageService.addNewPackage(pack, customerId); }
 
