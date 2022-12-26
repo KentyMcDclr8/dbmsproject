@@ -12,10 +12,13 @@ import java.util.List;
 @CrossOrigin
 public class ComplaintController {
     private final ComplaintService complaintService;
+    private final ComplaintRepository complaintRepository;
 
     @Autowired
-    public ComplaintController(ComplaintService complaintService) {
+    public ComplaintController(ComplaintService complaintService,
+                               ComplaintRepository complaintRepository) {
         this.complaintService = complaintService;
+        this.complaintRepository = complaintRepository;
     }
 
     @GetMapping
@@ -24,18 +27,25 @@ public class ComplaintController {
     }
 
     @PostMapping
-    public void addNewComplaint(@RequestBody Complaint complaint) { complaintService.addNewComplaint(complaint); }
+    public Complaint addNewComplaint(@RequestBody Complaint complaint) { complaintService.addNewComplaint(complaint);
+    return complaint;
+    }
 
     @DeleteMapping(path = "{complaintId}")
-    public void deleteComplaint(@PathVariable("complaintId") Long complaintId) {
+    public Complaint deleteComplaint(@PathVariable("complaintId") Long complaintId) {
         complaintService.deleteComplaint(complaintId);
+        Complaint complaint;
+        return  complaint = complaintRepository.findComplaintById(complaintId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
     }
 
     @PutMapping(path = "{complaintId}")
-    public void updateComplaint(
+    public Complaint updateComplaint(
             @PathVariable("complaintId") Long complaintId,
             @RequestParam(required = true) String feedback,
             @RequestParam(required = true) String status) {
         complaintService.setComplaintFeedback(complaintId, feedback, status);
+        Complaint complaint;
+        return  complaint = complaintRepository.findComplaintById(complaintId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
+
     }
 }

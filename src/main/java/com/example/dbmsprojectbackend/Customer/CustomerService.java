@@ -26,8 +26,8 @@ public class CustomerService {
 		return customerRepository.findAll();
 	}
 	@Transactional
-
-	public void addNewCustomer(Customer customer) {
+//new
+	public Long addNewCustomer(Customer customer) {
 		Optional<Customer> customerOptionalEmail = customerRepository.findCustomerByEmail(customer.getEmail());
 		Optional<Customer> customerOptionalPhone = customerRepository.findCustomerByPhone(customer.getPhone());
 		if (customerOptionalEmail.isPresent()) {
@@ -54,6 +54,8 @@ public class CustomerService {
 				.setParameter(10, "Customer")
 				.executeUpdate();
 		customer.customerId++;
+		Long temp = customer.customerId -1;
+		return temp;
 
 	}
 
