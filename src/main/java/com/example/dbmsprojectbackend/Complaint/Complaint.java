@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 @Entity(name = "Complaint")
 @Table(name = "complaint")
 public class Complaint {
+    public static Long complaintId = 5000L;
 
     // properties
     @Id

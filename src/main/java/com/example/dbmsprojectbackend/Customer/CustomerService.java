@@ -1,5 +1,6 @@
 package com.example.dbmsprojectbackend.Customer;
 
+import com.example.dbmsprojectbackend.Employee.Employee;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,13 @@ public class CustomerService {
 		if (customerOptionalPhone.isPresent()) {
 			throw new IllegalStateException("An employee with that phone number already exists.");
 		}
+		Optional<Customer> customerOptionalId = customerRepository.findCustomerById(customer.customerId);
+		while(customerOptionalId.isPresent()){
+			customer.customerId++;
+			customerOptionalId = customerRepository.findCustomerById(customer.customerId);
+		}
 		entityManager.createNativeQuery("INSERT INTO customer (id, password, name, email, phone, building_number,  street_number,  city,  province, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-				.setParameter(1, customer.getId())
+				.setParameter(1, customer.customerId)
 				.setParameter(2, customer.getPassword())
 				.setParameter(3, customer.getName())
 				.setParameter(4, customer.getEmail())
@@ -47,6 +53,8 @@ public class CustomerService {
 				.setParameter(9, customer.getProvince())
 				.setParameter(10, "Customer")
 				.executeUpdate();
+		customer.customerId++;
+
 	}
 
 	public void deleteCustomer(Long customerId) {

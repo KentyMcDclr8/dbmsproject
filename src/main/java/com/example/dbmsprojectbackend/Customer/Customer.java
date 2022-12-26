@@ -16,18 +16,11 @@ import java.util.List;
 		}
 )
 public class Customer {
+	public static Long customerId = 2000L;
 
 	// properties
 	@Id
-	@SequenceGenerator(
-			name = "customer_sequence",
-			sequenceName = "customer_sequence",
-			allocationSize = 1
-	)
-	@GeneratedValue(
-			strategy = GenerationType.SEQUENCE,
-			generator = "customer_sequence"
-	)
+
 	@Column(
 			name = "id",
 			updatable = false

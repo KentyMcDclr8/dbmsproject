@@ -1,6 +1,7 @@
 package com.example.dbmsprojectbackend.Complaint;
 
 import com.example.dbmsprojectbackend.Employee.Employee;
+import com.example.dbmsprojectbackend.Recipient.Recipient;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,22 @@ public class ComplaintService {
 
     @Transactional
     public void addNewComplaint(Complaint complaint) {
-        Optional<Complaint> complaintOptional = complaintRepository.findComplaintById(complaint.getId());
-        if (complaintOptional.isPresent()) {
-            throw new IllegalStateException("A complaint with that ID already exists.");
+//        Optional<Complaint> complaintOptional = complaintRepository.findComplaintById(complaint.getId());
+//        if (complaintOptional.isPresent()) {
+//            throw new IllegalStateException("A complaint with that ID already exists.");
+//        }
+        Optional<Complaint> complaintOptionalId = complaintRepository.findComplaintById(complaint.complaintId);
+        while(complaintOptionalId.isPresent()){
+            complaint.complaintId++;
+            complaintOptionalId = complaintRepository.findComplaintById(complaint.complaintId);
         }
         entityManager.createNativeQuery("INSERT INTO complaint (id, details, type, status) VALUES (?, ?, ?, ?)")
-                .setParameter(1, complaint.getId())
+                .setParameter(1, complaint.complaintId)
                 .setParameter(2, complaint.getDetails())
                 .setParameter(3, complaint.getType())
                 .setParameter(4, complaint.getStatus())
                 .executeUpdate();
+        complaint.complaintId++;
     }
 
     @Transactional
