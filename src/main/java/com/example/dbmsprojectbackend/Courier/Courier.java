@@ -50,7 +50,7 @@ public class Courier {
 	private Long phone;
 	@Column(
 			name = "salary",
-			nullable = false
+			nullable = true
 	)
 	private int salary;
 	@Column(

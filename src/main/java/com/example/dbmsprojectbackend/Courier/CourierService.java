@@ -41,7 +41,7 @@ public class CourierService {
 				.setParameter(5, courier.getPhone())
 				.setParameter(6,courier.getApplicationReason())
 				.setParameter(7,false)
-				.setParameter(8, true)
+				.setParameter(8, false)
 				.setParameter(9,"Courier")
 				.setParameter(10, courier.getSalary())
 				.executeUpdate();
