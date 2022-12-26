@@ -26,8 +26,8 @@ public class PaymentDetailsController {
         return paymentDetailsService.getPaymentDetails();
     }
 
-    @GetMapping
-    public List<PaymentDetails> getPaymentDetailsById(Long customerId) { return paymentDetailsService.getPaymentDetailsByCustomerId(customerId); }
+    @GetMapping(path = "{customerId}")
+    public List<PaymentDetails> getPaymentDetailsById(@PathVariable("customerId") Long customerId) { return paymentDetailsService.getPaymentDetailsByCustomerId(customerId); }
 
     @PostMapping(path = "{customerId}")
     public void addPaymentDetails(@RequestBody PaymentDetails paymentDetails, @PathVariable("customerId") Long customerId) {
