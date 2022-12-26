@@ -25,7 +25,7 @@ public class ComplaintService {
     }
 
     @Transactional
-    public void addNewComplaint(Complaint complaint) {
+    public void addNewComplaint(Long package_id, Complaint complaint) {
 //        Optional<Complaint> complaintOptional = complaintRepository.findComplaintById(complaint.getId());
 //        if (complaintOptional.isPresent()) {
 //            throw new IllegalStateException("A complaint with that ID already exists.");
@@ -35,11 +35,12 @@ public class ComplaintService {
             complaint.complaintId++;
             complaintOptionalId = complaintRepository.findComplaintById(complaint.complaintId);
         }
-        entityManager.createNativeQuery("INSERT INTO complaint (id, details, type, status) VALUES (?, ?, ?, ?)")
+        entityManager.createNativeQuery("INSERT INTO complaint (id, details, type, status, pack_id) VALUES (?, ?, ?, ?, ?)")
                 .setParameter(1, complaint.complaintId)
                 .setParameter(2, complaint.getDetails())
                 .setParameter(3, complaint.getType())
-                .setParameter(4, complaint.getStatus())
+                .setParameter(4, "Processing")
+                .setParameter(5, package_id)
                 .executeUpdate();
         complaint.complaintId++;
     }

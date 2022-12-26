@@ -26,8 +26,8 @@ public class ComplaintController {
         return complaintService.getComplaints();
     }
 
-    @PostMapping
-    public Complaint addNewComplaint(@RequestBody Complaint complaint) { complaintService.addNewComplaint(complaint);
+    @PostMapping(path = "{package_id}")
+    public Complaint addNewComplaint(@PathVariable("package_id") Long package_id, @RequestBody Complaint complaint) { complaintService.addNewComplaint(package_id, complaint);
     return complaint;
     }
 

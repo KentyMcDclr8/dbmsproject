@@ -34,9 +34,9 @@ public class PackageController {
     }
 
     @GetMapping(path = "/price")
-    public int getPackagePrice(@RequestBody Package pack) {
-        pack.setPrice();
-        return pack.getPrice();
+    public int getPackagePrice(@RequestBody PriceCalcHelper pch) {
+
+        return (int) ((pch.getWeight()/2) + pch.getVolume());
     }
 
     @PostMapping(path = "{customerId}")
