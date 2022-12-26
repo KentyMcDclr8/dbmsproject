@@ -24,7 +24,7 @@ public interface RecipientRepository extends JpaRepository<Recipient, Long> {
 	List<Recipient> findAll();
 
 	@Query(value = "SELECT * FROM recipient r WHERE r.customer_id = ?1", nativeQuery = true)
-	List<Recipient> findReipientForACustomer(Long customerId);
+	List<Recipient> findRecipientForACustomer(Long customerId);
 	@Modifying
 	@Transactional
 	@Query(value = "DELETE FROM recipient r WHERE r.recipient_id = ?1", nativeQuery = true)

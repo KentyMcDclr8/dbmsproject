@@ -28,7 +28,7 @@ public class RecipientController {
 	}
 	@GetMapping(path = "{customerId}")
 	public List<Recipient> getRecipientOfACustomer(@PathVariable Long customerId) {
-		return recipientRepository.findReipientForACustomer(customerId);
+		return recipientRepository.findRecipientForACustomer(customerId);
 	}
 
 	@PostMapping(path = "{customerId}")
