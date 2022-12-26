@@ -55,6 +55,9 @@ public class LoginService {
 			}
 			else {
 				Courier courier = courierRepository.findCourierById(id).orElseThrow(() -> new IllegalStateException("A courier with that id does not exist."));
+				if(!courier.isApproved()){
+					throw new IllegalStateException("Courier is not approved");
+				}
 				return courier;
 			}
 		}
