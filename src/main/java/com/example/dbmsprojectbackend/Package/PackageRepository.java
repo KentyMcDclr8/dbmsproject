@@ -16,6 +16,9 @@ public interface PackageRepository extends JpaRepository<Package, Long> {
     @Query(value = "SELECT * FROM package p WHERE p.id = ?1", nativeQuery = true)
     Optional<Package> findPackageById(Long packageId);
 
+    @Query(value = "SELECT * FROM package p WHERE p.sent_by = ?1", nativeQuery = true)
+    List<Package> findPackageBySenderId(Long senderId);
+
     @Query(value = "SELECT * FROM package p", nativeQuery = true)
     List<Package> findAll();
 
