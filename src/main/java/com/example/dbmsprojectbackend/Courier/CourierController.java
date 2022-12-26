@@ -31,7 +31,7 @@ public class CourierController {
 	public Courier deleteCustomer(@PathVariable("courierId") Long courierId) {
 		courierService.deleteCourier(courierId);
 		Courier courier;
-		return courier = courierRepository.findById(courierId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
+		return courier = courierRepository.findById(courierId).orElseThrow(() -> new IllegalStateException("A courier with that ID does not exist."));
 	}
 
 	@PutMapping(path = "{courierId}")
@@ -40,7 +40,7 @@ public class CourierController {
 			@RequestParam(required = false) Boolean approved) {
 		courierService.updateCourier(courierId, approved);
 		Courier courier;
-		return courier = courierRepository.findById(courierId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
+		return courier = courierRepository.findById(courierId).orElseThrow(() -> new IllegalStateException("A courier with that ID does not exist."));
 	}
 
 }

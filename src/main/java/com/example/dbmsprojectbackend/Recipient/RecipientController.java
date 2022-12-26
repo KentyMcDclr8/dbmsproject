@@ -2,6 +2,7 @@ package com.example.dbmsprojectbackend.Recipient;
 
 import com.example.dbmsprojectbackend.Customer.Customer;
 import com.example.dbmsprojectbackend.Customer.CustomerRepository;
+import com.example.dbmsprojectbackend.PaymentDetails.PaymentDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,17 +33,21 @@ public class RecipientController {
 	}
 
 	@PostMapping(path = "{customerId}")
-	public void addNewRecipient(@RequestBody Recipient recipient, @PathVariable("customerId") Long customerId) {
+	public Recipient addNewRecipient(@RequestBody Recipient recipient, @PathVariable("customerId") Long customerId) {
 		Customer customer = customerRepository.findCustomerById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that id does not exist."));
 		recipientService.addNewRecipient(recipient, customer);
+		return recipient;
 	}
 
 	@DeleteMapping(path = "{recipientId}")
-	public void deleteRecipient(@PathVariable("recipientId") Long recipientId) {
+	public Recipient deleteRecipient(@PathVariable("recipientId") Long recipientId) {
 		recipientService.deleteRecipient(recipientId);
+		Recipient recipient;
+		return  recipient = recipientRepository.findRecipientById(recipientId).orElseThrow(() -> new IllegalStateException("A Recipient with that ID does not exist."));
+
 	}
 	@PutMapping(path = "{recipientId}")
-	public void updateRecipient(
+	public Recipient updateRecipient(
 			@PathVariable("recipientId") Long recipientId,
 			@RequestParam(required = false) String name,
 			@RequestParam(required = false) String email,
@@ -52,5 +57,8 @@ public class RecipientController {
 			@RequestParam(required = false) String city,
 			@RequestParam(required = false) String province) {
 		recipientService.updateRecipient(recipientId, name, email, phone,  building_number,  street_number,  city,  province);
+		Recipient recipient;
+		return  recipient = recipientRepository.findRecipientById(recipientId).orElseThrow(() -> new IllegalStateException("A Recipient with that ID does not exist."));
+
 	}
 }

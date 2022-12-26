@@ -1,5 +1,6 @@
 package com.example.dbmsprojectbackend.Employee;
 
+import com.example.dbmsprojectbackend.Complaint.Complaint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
@@ -13,10 +14,13 @@ import java.lang.*;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService,
+                              EmployeeRepository employeeRepository) {
         this.employeeService = employeeService;
+        this.employeeRepository = employeeRepository;
     }
 
     @GetMapping
@@ -25,17 +29,21 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public void addNewEmployee(@RequestBody Employee employee) {
+    public Employee addNewEmployee(@RequestBody Employee employee) {
         employeeService.addNewEmployee(employee);
+        return employee;
     }
 
     @DeleteMapping(path = "{employeeId}")
-    public void deleteEmployee(@PathVariable("employeeId") Long employeeId) {
+    public Employee deleteEmployee(@PathVariable("employeeId") Long employeeId) {
         employeeService.deleteEmployee(employeeId);
+        Employee employee;
+        return  employee = employeeRepository.findEmployeeById(employeeId).orElseThrow(() -> new IllegalStateException("A employee with that ID does not exist."));
+
     }
 
     @PutMapping(path = "{employeeId}")
-    public void updateEmployee(
+    public Employee updateEmployee(
             @PathVariable("employeeId") Long employeeId,
             @RequestParam(required = false) String password,
             @RequestParam(required = false) String name,
@@ -47,5 +55,8 @@ public class EmployeeController {
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String position) {
         employeeService.updateEmployee(employeeId, password, name, email, phone, salary, startDate, endDate, status, position);
+        Employee employee;
+        return  employee = employeeRepository.findEmployeeById(employeeId).orElseThrow(() -> new IllegalStateException("A employee with that ID does not exist."));
+
     }
 }

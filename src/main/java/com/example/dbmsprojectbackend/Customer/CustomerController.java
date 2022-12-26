@@ -31,7 +31,7 @@ public class CustomerController {
 	public Customer deleteCustomer(@PathVariable("customerId") Long customerId) {
 		customerService.deleteCustomer(customerId);
 		Customer customer;
-		return  customer = customerRepository.findById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
+		return  customer = customerRepository.findCustomerById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
 	}
 	@PutMapping(path = "{customerId}")
 	public Customer updateCustomer(
@@ -46,7 +46,7 @@ public class CustomerController {
 			@RequestParam(required = false) String province) {
 		customerService.updateEmployee(customerId, password, name, email, phone,  building_number,  street_number,  city,  province);
 		Customer customer;
-		return  customer = customerRepository.findById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
+		return  customer = customerRepository.findCustomerById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
 
 	}
 }
