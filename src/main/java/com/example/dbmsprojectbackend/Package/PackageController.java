@@ -30,6 +30,11 @@ public class PackageController {
         return packageService.getPackageBySenderId(senderId);
     }
 
+    @GetMapping(path = "price/{packageId}")
+    public int getPackagePrice(@PathVariable("packageId") Long packageId) {
+        return packageService.getPricePackage(packageId);
+    }
+
     @PostMapping(path = "{customerId}")
     public void addNewPackage(@RequestBody Package pack, @PathVariable Long customerId) { packageService.addNewPackage(pack, customerId); }
 
