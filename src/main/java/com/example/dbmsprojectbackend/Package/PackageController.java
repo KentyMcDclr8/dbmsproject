@@ -33,7 +33,7 @@ public class PackageController {
         return packageService.getPackageBySenderId(senderId);
     }
 
-    @GetMapping(path = "price")
+    @GetMapping(path = "/price")
     public int getPackagePrice(@RequestBody Package pack) {
         pack.setPrice();
         return pack.getPrice();
