@@ -61,6 +61,11 @@ public class Package {
     private Integer price;
 
     @Column(
+            name = "status"
+    )
+    private String status;
+
+    @Column(
             name = "deliveryTime"
     )
     private Integer deliveryTime;
@@ -93,6 +98,7 @@ public class Package {
         this.weight = weight;
         this.type = type;
         this.sentBy = sentBy;
+        this.status = "to be assigned";
     }
 
     // getters and setters

@@ -33,6 +33,22 @@ public class PackageService {
         return packageRepository.findPackageBySenderId(senderId);
     }
 
+    public List<Package> getActivePackages(Long senderId) {
+        return entityManager.createNativeQuery("SELECT * FROM package p WHERE p.id = ? AND p.status <> ? and p.status <> ?")
+                .setParameter(1, senderId)
+                .setParameter(2, "delivered")
+                .setParameter(3, "cancelled")
+                .getResultList();
+    }
+
+    public List<Package> getInactivePackages(Long senderId) {
+        return entityManager.createNativeQuery("SELECT * FROM package p WHERE p.id = ? AND p.status = ? and p.status = ?")
+                .setParameter(1, senderId)
+                .setParameter(2, "delivered")
+                .setParameter(3, "cancelled")
+                .getResultList();
+    }
+
     @Transactional
     public void addNewPackage(Package pack, Long customer) {
 //        Optional<Package> packageOptional = packageRepository.findPackageById(pack.getId());
@@ -44,12 +60,13 @@ public class PackageService {
             pack.packageId++;
             recipientOptionalId = packageRepository.findPackageById(pack.packageId);
         }
-        entityManager.createNativeQuery("INSERT INTO package (id, volume, weight, type, sent_by) VALUES (?, ?, ?, ?, ?)")
+        entityManager.createNativeQuery("INSERT INTO package (id, volume, weight, type, status, sent_by) VALUES (?, ?, ?, ?, ?, ?)")
                 .setParameter(1, pack.packageId)
                 .setParameter(2, pack.getVolume())
                 .setParameter(3, pack.getWeight())
                 .setParameter(4, pack.getType())
-                .setParameter(5, customer)
+                .setParameter(5, "to be assigned")
+                .setParameter(6, customer)
                 .executeUpdate();
         pack.packageId++;
     }

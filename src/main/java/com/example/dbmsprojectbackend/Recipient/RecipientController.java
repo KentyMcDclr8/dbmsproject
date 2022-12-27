@@ -43,7 +43,7 @@ public class RecipientController {
 	public Recipient deleteRecipient(@PathVariable("recipientId") Long recipientId) {
 		recipientService.deleteRecipient(recipientId);
 		Recipient recipient;
-		return null;
+		return  null;
 
 	}
 	@PutMapping(path = "{recipientId}")
