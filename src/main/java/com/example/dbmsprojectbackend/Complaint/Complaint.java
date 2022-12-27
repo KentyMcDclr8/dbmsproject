@@ -54,9 +54,9 @@ public class Complaint {
     @JoinColumn(name ="handled_by", referencedColumnName ="id")
     private Employee handledBy;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "package_id", referencedColumnName = "id")
     @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "package_id", referencedColumnName = "id")
     private Package pack;
 
     // constructor

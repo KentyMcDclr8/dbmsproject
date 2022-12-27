@@ -65,7 +65,7 @@ public class PackageService {
                 .setParameter(2, pack.getVolume())
                 .setParameter(3, pack.getWeight())
                 .setParameter(4, pack.getType())
-                .setParameter(5, "to be assigned")
+                .setParameter(5, "To Be Assigned")
                 .setParameter(6, customer)
                 .executeUpdate();
         pack.packageId++;
