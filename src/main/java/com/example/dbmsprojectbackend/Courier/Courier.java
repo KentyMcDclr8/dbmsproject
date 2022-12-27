@@ -82,6 +82,15 @@ public class Courier {
 		this.type = type;
 		this.salary = salary;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	// getter method for password
 	public String getPassword() {
 		return password;
