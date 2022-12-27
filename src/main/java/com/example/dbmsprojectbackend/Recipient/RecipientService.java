@@ -3,11 +3,13 @@ package com.example.dbmsprojectbackend.Recipient;
 import com.example.dbmsprojectbackend.Customer.Customer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -28,6 +30,24 @@ public class RecipientService {
 	public List<Recipient> getRecipient() {
 		return recipientRepository.findAll();
 	}
+
+	public List<Recipient> getRecipientByFilter(Long customerId, Filters filters) {
+		Query sql =  entityManager.createNativeQuery("SELECT r.recipient_id FROM recipient r WHERE r.name like \'%"+filters.getName()+"%\' "+ "and r.email like \'%" + filters.getEmail()+"%\'");
+		List<Long> r = sql.getResultList();
+		List<Recipient> c = new ArrayList<>();
+		for (Long a:r){
+			c.add(recipientRepository.findById(a).orElseThrow(() -> new IllegalStateException("A complaint with that ID does not exist.")));
+
+		}
+		return c;
+
+
+
+
+
+		//return recipientRepository.findAll();
+	}
+
 	@Transactional
 
 	public void addNewRecipient(Recipient recipient, Customer customer) {

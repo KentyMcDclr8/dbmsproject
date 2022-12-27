@@ -53,4 +53,9 @@ public class RecipientController {
 		recipientService.updateRecipient(recipientId, recipient.getName(), recipient.getEmail(), recipient.getPhone(),  recipient.getBuildingNumber(),  recipient.getStreetNumber(),  recipient.getCity(),  recipient.getProvince());
 		return recipient;
 	}
+	@GetMapping(path = "filter/{customerId}")
+	public List<Recipient> getRecipientOfACustomerByFilter(@PathVariable Long customerId, @RequestBody Filters filters) {
+		return recipientService.getRecipientByFilter(customerId, filters);
+	}
+
 }
