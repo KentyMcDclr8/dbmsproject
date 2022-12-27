@@ -2,6 +2,7 @@ package com.example.dbmsprojectbackend.Complaint;
 
 import com.example.dbmsprojectbackend.Customer.Customer;
 import com.example.dbmsprojectbackend.Employee.Employee;
+import com.example.dbmsprojectbackend.Package.Package;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -52,6 +53,11 @@ public class Complaint {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name ="handled_by", referencedColumnName ="id")
     private Employee handledBy;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn(name = "package_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Package pack;
 
     // constructor
     public Complaint() {}
@@ -111,6 +117,12 @@ public class Complaint {
 
     public void setHandledBy(Employee handledBy) {
         this.handledBy = handledBy;
+    }
+    public Package getpackage() {
+        return pack;
+    }
+    public void setPackage(Package pack) {
+        this.pack = pack;
     }
 }
 

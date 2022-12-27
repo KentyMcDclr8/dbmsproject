@@ -45,18 +45,8 @@ public class EmployeeController {
     @PutMapping(path = "{employeeId}")
     public Employee updateEmployee(
             @PathVariable("employeeId") Long employeeId,
-            @RequestParam(required = false) String password,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) Long phone,
-            @RequestParam(required = false) Integer salary,
-            @RequestParam(required = false) LocalDate startDate,
-            @RequestParam(required = false) LocalDate endDate,
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) String position) {
-        employeeService.updateEmployee(employeeId, password, name, email, phone, salary, startDate, endDate, status, position);
-        Employee employee;
-        return  employee = employeeRepository.findEmployeeById(employeeId).orElseThrow(() -> new IllegalStateException("A employee with that ID does not exist."));
-
+            @RequestBody Employee employee) {
+        employeeService.updateEmployee(employeeId, employee.getPassword(), employee.getName(), employee.getEmail(), employee.getPhone(), employee.getSalary(), employee.getStartDate(), employee.getEndDate(), employee.getStatus(), employee.getPosition());
+       return employee;
     }
 }

@@ -26,8 +26,8 @@ public class ComplaintController {
         return complaintService.getComplaints();
     }
 
-    @PostMapping
-    public Complaint addNewComplaint(@RequestBody Complaint complaint) { complaintService.addNewComplaint(complaint);
+    @PostMapping(path = "{package_id}")
+    public Complaint addNewComplaint(@PathVariable("package_id") Long package_id, @RequestBody Complaint complaint) { complaintService.addNewComplaint(package_id, complaint);
     return complaint;
     }
 
@@ -41,11 +41,8 @@ public class ComplaintController {
     @PutMapping(path = "{complaintId}")
     public Complaint updateComplaint(
             @PathVariable("complaintId") Long complaintId,
-            @RequestParam(required = true) String feedback,
-            @RequestParam(required = true) String status) {
-        complaintService.setComplaintFeedback(complaintId, feedback, status);
-        Complaint complaint;
-        return  complaint = complaintRepository.findComplaintById(complaintId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
-
+            @RequestBody Complaint complaint) {
+        complaintService.setComplaintFeedback(complaintId, complaint.getFeedback(), complaint.getStatus());
+        return complaint;
     }
 }

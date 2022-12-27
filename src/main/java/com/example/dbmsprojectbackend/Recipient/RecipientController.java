@@ -49,16 +49,8 @@ public class RecipientController {
 	@PutMapping(path = "{recipientId}")
 	public Recipient updateRecipient(
 			@PathVariable("recipientId") Long recipientId,
-			@RequestParam(required = false) String name,
-			@RequestParam(required = false) String email,
-			@RequestParam(required = false) Long phone,
-			@RequestParam(required = false) String building_number,
-			@RequestParam(required = false) String street_number,
-			@RequestParam(required = false) String city,
-			@RequestParam(required = false) String province) {
-		recipientService.updateRecipient(recipientId, name, email, phone,  building_number,  street_number,  city,  province);
-		Recipient recipient;
-		return  recipient = recipientRepository.findRecipientById(recipientId).orElseThrow(() -> new IllegalStateException("A Recipient with that ID does not exist."));
-
+			@RequestBody Recipient recipient) {
+		recipientService.updateRecipient(recipientId, recipient.getName(), recipient.getEmail(), recipient.getPhone(),  recipient.getBuildingNumber(),  recipient.getStreetNumber(),  recipient.getCity(),  recipient.getProvince());
+		return recipient;
 	}
 }

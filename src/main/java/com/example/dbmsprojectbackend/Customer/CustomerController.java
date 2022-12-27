@@ -2,6 +2,7 @@ package com.example.dbmsprojectbackend.Customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -17,11 +18,13 @@ public class CustomerController {
 		this.customerService = customerService;
 		this.customerRepository = customerRepository;
 	}
+
 	@GetMapping
 	public List<Customer> getCustomers() {
 		return customerService.getCustomers();
 	}
-//new
+
+	//new
 	@PostMapping
 	public Long addNewCustomer(@RequestBody Customer customer) {
 		return customerService.addNewCustomer(customer);
@@ -31,22 +34,14 @@ public class CustomerController {
 	public Customer deleteCustomer(@PathVariable("customerId") Long customerId) {
 		customerService.deleteCustomer(customerId);
 		Customer customer;
-		return  customer = customerRepository.findCustomerById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
+		return customer = customerRepository.findCustomerById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
 	}
+
 	@PutMapping(path = "{customerId}")
 	public Customer updateCustomer(
 			@PathVariable("customerId") Long customerId,
-			@RequestParam(required = false) String password,
-			@RequestParam(required = false) String name,
-			@RequestParam(required = false) String email,
-			@RequestParam(required = false) Long phone,
-			@RequestParam(required = false) String building_number,
-			@RequestParam(required = false) String street_number,
-			@RequestParam(required = false) String city,
-			@RequestParam(required = false) String province) {
-		customerService.updateEmployee(customerId, password, name, email, phone,  building_number,  street_number,  city,  province);
-		Customer customer;
-		return  customer = customerRepository.findCustomerById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
-
+			@RequestBody Customer customer) {
+		customerService.updateEmployee(customerId, customer.getPassword(), customer.getName(), customer.getEmail(), customer.getPhone(), customer.getBuildingNumber(), customer.getStreetNumber(), customer.getCity(), customer.getProvince());
+		return customer;
 	}
 }
