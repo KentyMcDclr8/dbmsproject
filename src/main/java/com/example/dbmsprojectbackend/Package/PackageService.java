@@ -60,12 +60,13 @@ public class PackageService {
             pack.packageId++;
             recipientOptionalId = packageRepository.findPackageById(pack.packageId);
         }
-        entityManager.createNativeQuery("INSERT INTO package (id, volume, weight, type, sent_by) VALUES (?, ?, ?, ?, ?)")
+        entityManager.createNativeQuery("INSERT INTO package (id, volume, weight, type, status, sent_by) VALUES (?, ?, ?, ?, ?, ?)")
                 .setParameter(1, pack.packageId)
                 .setParameter(2, pack.getVolume())
                 .setParameter(3, pack.getWeight())
                 .setParameter(4, pack.getType())
-                .setParameter(5, customer)
+                .setParameter(5, "to be assigned")
+                .setParameter(6, customer)
                 .executeUpdate();
         pack.packageId++;
     }
