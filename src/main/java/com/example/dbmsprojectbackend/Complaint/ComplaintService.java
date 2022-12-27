@@ -4,10 +4,12 @@ import com.example.dbmsprojectbackend.Employee.Employee;
 import com.example.dbmsprojectbackend.Recipient.Recipient;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,10 +23,17 @@ public class ComplaintService {
     public ComplaintService(ComplaintRepository complaintRepository) { this.complaintRepository = complaintRepository; }
 
     public List<Complaint> getComplaints() {
-        return complaintRepository.findAll();
+
+        Query sql =  entityManager.createNativeQuery("SELECT * FROM complaint c");
+        List<Complaint> r = sql.getResultList();
+        return r;
+       // return complaintRepository.findAll();
     }
     public List<Complaint> getComplaintsByUser(Long customerId) {
-        return complaintRepository.findComplaintByUser(customerId);
+       Query sql =  entityManager.createNativeQuery("SELECT c.* FROM complaint c, package p WHERE c.package_id = p.id and p.sent_by = ?1")
+                .setParameter(1, customerId);
+        List<Complaint> r = sql.getResultList();
+        return r;
     }
 
     @Transactional
