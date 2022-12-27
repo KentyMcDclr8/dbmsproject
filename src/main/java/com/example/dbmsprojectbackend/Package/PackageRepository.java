@@ -22,7 +22,7 @@ public interface PackageRepository extends JpaRepository<Package, Long> {
     @Query(value = "SELECT * FROM package p", nativeQuery = true)
     List<Package> findAll();
 
-    @Query(value = "SELECT * FROM package p WHERE p.sent_by = ?1 AND p.delivery_status <> ?2 AND p.delivery_status <> ?3)", nativeQuery = true)
+    @Query(value = "SELECT * FROM package p WHERE p.sent_by = ?1 AND p.delivery_status <> ?2 AND p.delivery_status <> ?3", nativeQuery = true)
     List<Package> getActivePackages(Long senderId, String status1, String status2);
 
     @Query(value = "SELECT * FROM package p WHERE p.sent_by = ?1 AND (p.delivery_status = ?2 OR p.delivery_status = ?3)", nativeQuery = true)
