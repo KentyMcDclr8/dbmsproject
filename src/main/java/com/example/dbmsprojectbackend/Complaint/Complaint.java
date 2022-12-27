@@ -56,7 +56,7 @@ public class Complaint {
     private Employee handledBy;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "package_id", referencedColumnName = "id")
     private Package pack;
 
