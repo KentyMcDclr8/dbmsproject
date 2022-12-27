@@ -66,7 +66,7 @@ public class PackageController {
     public Package updateEmployee(
             @PathVariable("packageId") Long packageId,
             @RequestBody Package pack) {
-        packageService.updatePackage(packageId, pack.getVolume(), pack.getWeight(), pack.getType());
+        packageService.updatePackage(packageId, pack.getVolume(), pack.getWeight(), pack.getType(), pack.getDeliveryStatus());
         return pack;
     }
 
