@@ -101,7 +101,7 @@ public class PackageService {
     }
 
     @Transactional
-    public void updatePackage(Long packageId, Double volume, Double weight, String type) {
+    public void updatePackage(Long packageId, Double volume, Double weight, String type, String deliveryStatus) {
         Optional<Package> packageOptional = packageRepository.findPackageById(packageId);
         if (!packageOptional.isPresent()) {
             throw new IllegalStateException("A package with that ID does not exist.");
@@ -116,6 +116,9 @@ public class PackageService {
         pack.setPrice();
         if (type != null && type.length() != 0 && !Objects.equals(type, pack.getType())) {
             pack.setType(type);
+        }
+        if (deliveryStatus != null && deliveryStatus.length() != 0 && !Objects.equals(deliveryStatus, pack.getDeliveryStatus())) {
+            pack.setDeliveryStatus(deliveryStatus);
         }
     }
 }
