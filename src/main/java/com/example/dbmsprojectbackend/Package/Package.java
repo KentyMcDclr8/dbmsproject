@@ -98,6 +98,7 @@ public class Package {
         this.weight = weight;
         this.type = type;
         this.sentBy = sentBy;
+        this.status = "to be assigned";
     }
 
     // getters and setters
