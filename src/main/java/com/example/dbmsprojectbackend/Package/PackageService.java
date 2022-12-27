@@ -34,7 +34,7 @@ public class PackageService {
     }
 
     public List<Package> getActivePackages(Long senderId) {
-        return entityManager.createNativeQuery("SELECT * FROM package p WHERE p.id = ? AND p.status <> ? and p.status <> ?")
+        return entityManager.createNativeQuery("SELECT * FROM package p WHERE p.id = ? AND p.delivery_status <> ? and p.delivery_status <> ?")
                 .setParameter(1, senderId)
                 .setParameter(2, "delivered")
                 .setParameter(3, "cancelled")
@@ -42,7 +42,7 @@ public class PackageService {
     }
 
     public List<Package> getInactivePackages(Long senderId) {
-        return entityManager.createNativeQuery("SELECT * FROM package p WHERE p.id = ? AND p.status = ? and p.status = ?")
+        return entityManager.createNativeQuery("SELECT * FROM package p WHERE p.id = ? AND (p.delivery_status = ? OR p.delivery_status = ?)")
                 .setParameter(1, senderId)
                 .setParameter(2, "delivered")
                 .setParameter(3, "cancelled")
@@ -60,7 +60,7 @@ public class PackageService {
             pack.packageId++;
             recipientOptionalId = packageRepository.findPackageById(pack.packageId);
         }
-        entityManager.createNativeQuery("INSERT INTO package (id, volume, weight, type, status, sent_by) VALUES (?, ?, ?, ?, ?, ?)")
+        entityManager.createNativeQuery("INSERT INTO package (id, volume, weight, type, delivery_status, sent_by) VALUES (?, ?, ?, ?, ?, ?)")
                 .setParameter(1, pack.packageId)
                 .setParameter(2, pack.getVolume())
                 .setParameter(3, pack.getWeight())
