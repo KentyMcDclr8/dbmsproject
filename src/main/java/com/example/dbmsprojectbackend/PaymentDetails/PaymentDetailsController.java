@@ -45,7 +45,7 @@ public class PaymentDetailsController {
     public PaymentDetails deletePaymentDetails(@PathVariable("accountNumber") Long accountNumber, @PathVariable("customerId") Long customerId) {
         paymentDetailsService.deletePaymentDetails(accountNumber, customerId);
         PaymentDetails paymentDetails;
-        return  paymentDetails = paymentDetailsRepository.findPaymentDetailsByAccountAndId(accountNumber, customerId).orElseThrow(() -> new IllegalStateException("A payment with that ID does not exist."));
+        return  null;
 
     }
 
