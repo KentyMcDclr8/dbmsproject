@@ -23,6 +23,9 @@ public class ComplaintService {
     public List<Complaint> getComplaints() {
         return complaintRepository.findAll();
     }
+    public List<Complaint> getComplaintsByUser(Long customerId) {
+        return complaintRepository.findComplaintByUser(customerId);
+    }
 
     @Transactional
     public void addNewComplaint(Long package_id, Complaint complaint) {
@@ -35,7 +38,7 @@ public class ComplaintService {
             complaint.complaintId++;
             complaintOptionalId = complaintRepository.findComplaintById(complaint.complaintId);
         }
-        entityManager.createNativeQuery("INSERT INTO complaint (id, details, type, status, pack_id) VALUES (?, ?, ?, ?, ?)")
+        entityManager.createNativeQuery("INSERT INTO complaint (id, details, type, status, package_id) VALUES (?, ?, ?, ?, ?)")
                 .setParameter(1, complaint.complaintId)
                 .setParameter(2, complaint.getDetails())
                 .setParameter(3, complaint.getType())

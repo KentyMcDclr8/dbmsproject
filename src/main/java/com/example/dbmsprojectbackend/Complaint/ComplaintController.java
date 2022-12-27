@@ -26,6 +26,11 @@ public class ComplaintController {
         return complaintService.getComplaints();
     }
 
+    @GetMapping(path = "{customer_id}")
+    public List<Complaint> getComplaints1(@PathVariable Long customer_id) {
+        return complaintService.getComplaintsByUser(customer_id);
+    }
+
     @PostMapping(path = "{package_id}")
     public Complaint addNewComplaint(@PathVariable("package_id") Long package_id, @RequestBody Complaint complaint) { complaintService.addNewComplaint(package_id, complaint);
     return complaint;
