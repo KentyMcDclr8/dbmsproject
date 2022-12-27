@@ -34,19 +34,11 @@ public class PackageService {
     }
 
     public List<Package> getActivePackages(Long senderId) {
-        return entityManager.createNativeQuery("SELECT * FROM package p WHERE p.sent_by = ? AND p.delivery_status <> ? and p.delivery_status <> ?")
-                .setParameter(1, senderId)
-                .setParameter(2, "delivered")
-                .setParameter(3, "cancelled")
-                .getResultList();
+        return packageRepository.getActivePackages(senderId, "delivered", "cancelled");
     }
 
     public List<Package> getInactivePackages(Long senderId) {
-        return entityManager.createNativeQuery("SELECT * FROM package p WHERE p.sent_by = ? AND (p.delivery_status = ? OR p.delivery_status = ?)")
-                .setParameter(1, senderId)
-                .setParameter(2, "delivered")
-                .setParameter(3, "cancelled")
-                .getResultList();
+        return packageRepository.getInactivePackages(senderId, "delivered", "cancelled");
     }
 
     @Transactional
