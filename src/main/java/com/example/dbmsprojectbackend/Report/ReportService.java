@@ -81,13 +81,19 @@ public class ReportService {
 
         report.setReportData(endData);
 
-        entityManager.createNativeQuery("INSERT INTO report (id, report_name, description, query, report_data, created_date) VALUES (?, ?, ?, ?, ?, ?)")
+        tableData td = new tableData(endData);
+        report.setColumns(td.columns);
+        report.setData(td.data);
+
+        entityManager.createNativeQuery("INSERT INTO report (id, report_name, description, query, report_data, created_date, columns, data) VALUES (?, ?, ?, ?, ?, ?,?,?)")
                 .setParameter(1, report.reportId)
                 .setParameter(2, report.getReportName())
                 .setParameter(3, report.getDescription())
                 .setParameter(4, report.getQuery())
                 .setParameter(5, report.getReportData())
                 .setParameter(6, report.getCreatedDate())
+                .setParameter(7, report.getColumns())
+                .setParameter(8, report.getData())
                 .executeUpdate();
         report.reportId++;
     }
