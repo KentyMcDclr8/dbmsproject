@@ -6,11 +6,13 @@ import com.example.dbmsprojectbackend.PaymentDetails.PaymentDetails;
 import com.example.dbmsprojectbackend.Recipient.Recipient;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,6 +41,17 @@ public class PackageService {
 
     public List<Package> getInactivePackages(Long senderId) {
         return packageRepository.getInactivePackages(senderId, "delivered", "cancelled");
+    }
+
+    public List<Package> getPackageFilter(Long id, int weight1, int weight2){
+        Query sql =  entityManager.createNativeQuery("SELECT p.id FROM package p WHERE p.weight between "+weight1+ " and "+weight2);
+        List<Long> r = sql.getResultList();
+        List<Package> c = new ArrayList<>();
+        for (Long a:r){
+            c.add(packageRepository.findPackageById(a).orElseThrow(() -> new IllegalStateException("A complaint with that ID does not exist.")));
+
+        }
+        return c;
     }
 
     @Transactional

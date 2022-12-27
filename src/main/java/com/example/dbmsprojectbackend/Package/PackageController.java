@@ -78,4 +78,14 @@ public class PackageController {
         return  pack = packageRepository.findPackageById(packageId).orElseThrow(() -> new IllegalStateException("A package with that ID does not exist."));
 
     }
+
+    @GetMapping(path = "filter/{packageId}")
+    public List<Package> getPackageFiltered(
+            @PathVariable("packageId") Long packageId,
+            @RequestParam int weight1,
+            @RequestParam int weight2
+            ) {
+
+        return packageService.getPackageFilter(packageId, weight1, weight2);
+    }
 }
