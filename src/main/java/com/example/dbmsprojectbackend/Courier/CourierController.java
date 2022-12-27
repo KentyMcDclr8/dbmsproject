@@ -37,10 +37,9 @@ public class CourierController {
 	@PutMapping(path = "{courierId}")
 	public Courier updateCourier(
 			@PathVariable("courierId") Long courierId,
-			@RequestParam(required = true) Boolean approved) {
-		courierService.updateCourier(courierId, approved);
-		Courier courier;
-		return courier = courierRepository.findById(courierId).orElseThrow(() -> new IllegalStateException("A courier with that ID does not exist."));
+			@RequestBody Courier courier) {
+		courierService.updateCourier(courierId, courier.isApproved());
+	return courier;
 	}
 
 }

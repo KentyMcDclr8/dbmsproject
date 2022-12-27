@@ -55,13 +55,9 @@ public class PackageController {
     @PutMapping(path = "{packageId}")
     public Package updateEmployee(
             @PathVariable("packageId") Long packageId,
-            @RequestParam(required = false) Double volume,
-            @RequestParam(required = false) Double weight,
-            @RequestParam(required = false) String type) {
-        packageService.updatePackage(packageId, volume, weight, type);
-        Package pack;
-        return  pack = packageRepository.findPackageById(packageId).orElseThrow(() -> new IllegalStateException("A package with that ID does not exist."));
-
+            @RequestBody Package pack) {
+        packageService.updatePackage(packageId, pack.getVolume(), pack.getWeight(), pack.getType());
+        return pack;
     }
 
     @PutMapping(path = "price/{packageId}")
