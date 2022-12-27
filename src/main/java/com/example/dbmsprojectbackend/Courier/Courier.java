@@ -8,7 +8,6 @@ public class Courier {
 	public static Long courierId = 6000L;
 
 	@Id
-
 	@Column(
 			name = "id",
 			updatable = false
