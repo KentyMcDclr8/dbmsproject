@@ -18,6 +18,9 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
     @Query(value = "SELECT * FROM complaint c", nativeQuery = true)
     List<Complaint> findAll();
 
+    @Query(value = "SELECT c.* FROM complaint c, package p WHERE c.package_id = p.id AND p.sent_by = ?1", nativeQuery = true)
+    List<Complaint> findComplaintByCustomer(Long customerId);
+
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM complaint c WHERE c.id = ?1", nativeQuery = true)
