@@ -33,9 +33,7 @@ public class CustomerController {
 	@DeleteMapping(path = "{customerId}")
 	public Customer deleteCustomer(@PathVariable("customerId") Long customerId) {
 		customerService.deleteCustomer(customerId);
-		Customer customer;
-		return customer = customerRepository.findCustomerById(customerId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
-	}
+		return new Customer();}
 
 	@PutMapping(path = "{customerId}")
 	public Customer updateCustomer(
