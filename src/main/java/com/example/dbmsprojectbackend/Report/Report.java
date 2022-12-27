@@ -4,9 +4,6 @@ import com.example.dbmsprojectbackend.Login.Admin;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.List;
-import java.util.Map;
-
 @Entity(name = "Report")
 @Table(name = "report")
 public class Report {
@@ -54,35 +51,6 @@ public class Report {
             columnDefinition = "DATE"
     )
     private String createdDate;
-
-
-    public String[] getColumns() {
-        return columns;
-    }
-
-    public void setColumns(String[] column) {
-        this.columns = columns;
-    }
-
-    @Column(
-            name = "columns",
-            columnDefinition = "TEXT"
-    )
-    private String[] columns;
-
-    public List<Map<String, String>> getData() {
-        return data;
-    }
-
-    public void setData(List<Map<String, String>> data) {
-        this.data = data;
-    }
-
-    @Column(
-            name = "data",
-            columnDefinition = "TEXT"
-    )
-    private List<Map<String, String>> data;
 
     @JsonIgnore
    /* @ManyToOne(cascade = CascadeType.ALL)
