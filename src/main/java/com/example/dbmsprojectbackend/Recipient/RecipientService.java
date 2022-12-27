@@ -32,7 +32,21 @@ public class RecipientService {
 	}
 
 	public List<Recipient> getRecipientByFilter(Long customerId, Filters filters) {
-		Query sql =  entityManager.createNativeQuery("SELECT r.recipient_id FROM recipient r WHERE r.name like \'%"+filters.getName()+"%\' "+ "and r.email like \'%" + filters.getEmail()+"%\'");
+		String name;
+		String email;
+		if(filters.getName() == null){
+			name = "";
+		}
+		else {
+			name = filters.getName();
+		}
+		if(filters.getEmail() == null){
+			email = "";
+		}
+		else {
+			email = filters.getEmail();
+		}
+		Query sql =  entityManager.createNativeQuery("SELECT r.recipient_id FROM recipient r WHERE r.name like \'%"+name+"%\' "+ "and r.email like \'%" + email+"%\'");
 		List<Long> r = sql.getResultList();
 		List<Recipient> c = new ArrayList<>();
 		for (Long a:r){
