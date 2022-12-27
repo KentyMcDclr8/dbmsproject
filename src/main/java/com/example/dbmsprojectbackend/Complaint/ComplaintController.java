@@ -35,7 +35,7 @@ public class ComplaintController {
     public Complaint deleteComplaint(@PathVariable("complaintId") Long complaintId) {
         complaintService.deleteComplaint(complaintId);
         Complaint complaint;
-        return  complaint = complaintRepository.findComplaintById(complaintId).orElseThrow(() -> new IllegalStateException("A customer with that ID does not exist."));
+        return  null;
     }
 
     @PutMapping(path = "{complaintId}")
