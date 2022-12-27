@@ -23,10 +23,18 @@ public class ComplaintService {
     public ComplaintService(ComplaintRepository complaintRepository) { this.complaintRepository = complaintRepository; }
 
     public List<Complaint> getComplaints() {
-       return complaintRepository.findAll();
+
+        Query sql =  entityManager.createNativeQuery("SELECT * FROM complaint c");
+        List<Complaint> r = sql.getResultList();
+        return r;
+       // return complaintRepository.findAll();
     }
     public List<Complaint> getComplaintsByUser(Long customerId) {
-       return complaintRepository.findComplaintByCustomer(customerId);
+        Query sql =  entityManager.createNativeQuery("SELECT c.* FROM complaint c, package p WHERE c.package_id = p.id and p.sent_by = ?1")
+                .setParameter(1, customerId);
+        List<Complaint> r = sql.getResultList();
+        return r;
+       //return complaintRepository.findComplaintByCustomer(customerId);
     }
 
     @Transactional
