@@ -43,7 +43,7 @@ public class PackageController {
         return packageService.getInactivePackages(senderId);
     }
 
-    @GetMapping(path = "/price")
+    @PostMapping(path = "/price")
     public int getPackagePrice(@RequestBody PriceCalcHelper pch) {
 
         return (int) ((pch.getWeight()/2) + pch.getVolume());
