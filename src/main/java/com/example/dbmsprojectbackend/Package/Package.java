@@ -61,6 +61,11 @@ public class Package {
     private Integer price;
 
     @Column(
+            name = "status"
+    )
+    private String status;
+
+    @Column(
             name = "deliveryTime"
     )
     private Integer deliveryTime;

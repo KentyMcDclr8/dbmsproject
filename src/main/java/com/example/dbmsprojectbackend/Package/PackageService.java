@@ -33,6 +33,22 @@ public class PackageService {
         return packageRepository.findPackageBySenderId(senderId);
     }
 
+    public List<Package> getActivePackages(Long senderId) {
+        return entityManager.createNativeQuery("SELECT * FROM package p WHERE p.id = ? AND p.status <> ? and p.status <> ?")
+                .setParameter(1, senderId)
+                .setParameter(2, "delivered")
+                .setParameter(3, "cancelled")
+                .getResultList();
+    }
+
+    public List<Package> getInactivePackages(Long senderId) {
+        return entityManager.createNativeQuery("SELECT * FROM package p WHERE p.id = ? AND p.status = ? and p.status = ?")
+                .setParameter(1, senderId)
+                .setParameter(2, "delivered")
+                .setParameter(3, "cancelled")
+                .getResultList();
+    }
+
     @Transactional
     public void addNewPackage(Package pack, Long customer) {
 //        Optional<Package> packageOptional = packageRepository.findPackageById(pack.getId());

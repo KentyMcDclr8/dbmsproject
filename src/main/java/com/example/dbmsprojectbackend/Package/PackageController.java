@@ -33,6 +33,16 @@ public class PackageController {
         return packageService.getPackageBySenderId(senderId);
     }
 
+    @GetMapping(path = "{senderId}/active")
+    public List<Package> getActivePackages(@PathVariable("senderId") Long senderId) {
+        return packageService.getActivePackages(senderId);
+    }
+
+    @GetMapping(path = "{senderId}/inactive")
+    public List<Package> getInactivePackages(@PathVariable("senderId") Long senderId) {
+        return packageService.getInactivePackages(senderId);
+    }
+
     @GetMapping(path = "/price")
     public int getPackagePrice(@RequestBody Package pack) {
         pack.setPrice();
