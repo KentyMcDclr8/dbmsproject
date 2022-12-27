@@ -5,6 +5,7 @@ import com.example.dbmsprojectbackend.Employee.Employee;
 import com.example.dbmsprojectbackend.Package.Package;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.data.repository.cdi.Eager;
 
 @Entity(name = "Complaint")
 @Table(name = "complaint")
@@ -50,7 +51,7 @@ public class Complaint {
     private String feedback;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name ="handled_by", referencedColumnName ="id")
     private Employee handledBy;
 
