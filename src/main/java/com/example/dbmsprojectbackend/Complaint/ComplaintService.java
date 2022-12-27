@@ -1,5 +1,6 @@
 package com.example.dbmsprojectbackend.Complaint;
 
+import com.example.dbmsprojectbackend.Customer.Customer;
 import com.example.dbmsprojectbackend.Employee.Employee;
 import com.example.dbmsprojectbackend.Recipient.Recipient;
 import jakarta.persistence.EntityManager;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,16 +26,32 @@ public class ComplaintService {
 
     public List<Complaint> getComplaints() {
 
-        Query sql =  entityManager.createNativeQuery("SELECT * FROM complaint c");
-        List<Complaint> r = sql.getResultList();
-        return r;
-       // return complaintRepository.findAll();
+        Query sql =  entityManager.createNativeQuery("SELECT c.id FROM complaint c");
+        List<Long> r = sql.getResultList();
+        List<Complaint> temp = new ArrayList<>() ;
+        for(Long c : r){
+            temp.add(complaintRepository.findById(c).orElseThrow(() -> new IllegalStateException("A complaint with that ID does not exist.")));
+
+        }
+        if(temp.isEmpty()){
+            throw new IllegalStateException("No complaint");
+        }
+        return temp;
+        // return complaintRepository.findAll();
     }
     public List<Complaint> getComplaintsByUser(Long customerId) {
-        Query sql =  entityManager.createNativeQuery("SELECT c.* FROM complaint c, package p WHERE c.package_id = p.id and p.sent_by = ?1")
+        Query sql =  entityManager.createNativeQuery("SELECT c.id FROM complaint c, package p WHERE c.package_id = p.id and p.sent_by = ?1")
                 .setParameter(1, customerId);
-        List<Complaint> r = sql.getResultList();
-        return r;
+        List<Long> r = sql.getResultList();
+        List<Complaint> temp = new ArrayList<>() ;
+        for(Long c : r){
+           temp.add(complaintRepository.findById(c).orElseThrow(() -> new IllegalStateException("A complaint with that ID does not exist.")));
+
+        }
+        if(temp.isEmpty()){
+            throw new IllegalStateException("No complaint");
+        }
+        return temp;
        //return complaintRepository.findComplaintByCustomer(customerId);
     }
 
